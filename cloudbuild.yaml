@@ -28,10 +28,13 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
 
 images:
   - 'us-central1-docker.pkg.dev/dc-lab-project/david-101037638-registry/david-101037638-service:$SHORT_SHA'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
 

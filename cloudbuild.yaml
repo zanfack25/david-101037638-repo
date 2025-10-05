@@ -30,6 +30,18 @@ steps:
       - '--allow-unauthenticated'
       - '--port'
       - '8080'
+  # Step 4: using cloud-sdk to Describes the Cloud Run service
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'services'
+      - 'describe'
+      - 'dave-310-service'
+      - '--region'
+      - 'us-central1'
+      - '--format'
+      - 'table(status.url)'
 
 images:
   - 'us-central1-docker.pkg.dev/dc-lab-project/david-101037638-registry/david-101037638-service:$SHORT_SHA'

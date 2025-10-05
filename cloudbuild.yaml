@@ -1,0 +1,37 @@
+steps:
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', '-t', 
+      'us-central1-docker.pkg.dev/$PROJECT_ID/david-101037638-registry/david-101037638-service:$SHORT_SHA', 
+      '.'
+    ]
+
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push', 
+      'us-central1-docker.pkg.dev/dc-lab-project/david-101037638-registry/david-101037638-service:$SHORT_SHA'
+    ]
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'dave-310-service'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/dc-lab-project/david-101037638-registry/david-101037638-service:$SHORT_SHA'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+images:
+  - 'us-central1-docker.pkg.dev/dc-lab-project/david-101037638-registry/david-101037638-service:$SHORT_SHA'
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
